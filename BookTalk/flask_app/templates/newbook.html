@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <link href="../static/styles/styles.css" rel="stylesheet">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="p-3 m-5 border-0 bd-example bd-example-row">
+    <!-- navigation bar html  -->
+    <div class="row justify-content-around">
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand"> <img src="../static/images/BookTok.png" width="100" height="100"></a>
+            <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
+                <a class="nav-link" href="#">Home </a>
+                <a class="nav-link" href="#">Profile </a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                class="btn btn-outline-primary btn-sm"> + Create Review</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                class="btn btn-outline-primary btn-sm"> Log Out </button></a>
+                    </li>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row justify-content-around">
+
+        <div class="col-6">
+            <H1>New BookTok</H1>
+            <form id="NewBookForm">
+                <label> Upload Book Cover: </label>
+                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+                <div> <label>Title:</label> </div>
+                
+                <div><label>Author:</label>
+                <input type ="text">
+                    </div>
+
+                <div><label>Review:</label>
+                <textarea form= "NewBookForm"></textarea>
+            </div>
+            </form>
+            </div>
+        </div>
+
+
+</body>
+
+</html>
