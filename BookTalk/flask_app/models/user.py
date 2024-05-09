@@ -1,37 +1,36 @@
-
 from flask_app import app
-from flask_app.config.mysqlconnection import connectToMySQL
+from flask_app.config.mysqlconnection import *
 from flask import flash, session
 import re
-# The above is used when we do login registration, flask-bcrypt should already be in your env check the pipfile
-
-# Remember 'fat models, skinny controllers' more logic should go in here rather than in your controller. Your controller should be able to just call a function from the model for what it needs, ideally.
+from flask_app.controllers import users
+from flask_app.models import book
 from flask_bcrypt import Bcrypt
-# Remember 'fat models, skinny controllers' more logic should go in here rather than in your controller. Your controller should be able to just call a function from the model for what it needs, ideally.
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 bcrypt = Bcrypt(app)
+
 class User:
     DB = "booktok" 
     def __init__(self, data):
-        self.id = data['id']
-        self.first_name = data['first_name']
-        self.last_name = data['last_name']
+        self.iduser = data['iduser']
+        self.firstname = data['firstname']
+        self.lastname = data['lastname']
         self.email = data['email']
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.comments = []
+        self.recipes = []
 
 
 
-    # Create Users Models
+    # Create user Models
     @classmethod
-    def save(cls, user_data):
-        query = """INSERT INTO users (first_name, last_name, email, password) 
-                    VALUES(%(first_name)s, %(last_name)s, %(email)s, %(password)s);"""
+    def create(cls, user_data):
+        query = """INSERT INTO user (firstname, lastname, email, password) 
+                    VALUES(%(firstname)s, %(lastname)s, %(email)s, %(password)s);"""
         created_user = {
-            "first_name": user_data['first_name'],
-            "last_name": user_data['last_name'],
+            "firstname": user_data['firstname'],
+            "lastname": user_data['lastname'],
             "email": user_data['email'],
             "password": bcrypt.generate_password_hash(user_data['password'])
         }  
@@ -41,74 +40,76 @@ class User:
 
 
 
-    # Read Users Models
+    # Read user Models
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM users;"
+        query = "SELECT * FROM user;"
         results = connectToMySQL(cls.DB).query_db(query)
-        users = []
+        user = []
         for u in results:
-            users.append(cls(u))
+            user.append(cls(u))
             print("one time")
-        return users
+        return user
     
     @classmethod
     def get_user(cls, id):
-        query = "SELECT * FROM users WHERE id = %(id)s"
+        query = "SELECT * FROM user WHERE id = %(id)s"
         data = {"id": id}
         results = connectToMySQL(cls.DB).query_db(query, data)
-        users = []
+        user = []
         for u in results:
-            users.append(cls(u))
+            user.append(cls(u))
             print("one time")
-        return users[0]
+        return user[0]
     
 
 
-    # Update Users Models
+    # Update user Models
     @classmethod
     def update(cls, data):
-        query = """UPDATE users 
-                SET first_name=%(first_name)s,last_name=%(last_name)s,email=%(email)s
+        query = """UPDATE user 
+                SET firstname=%(firstname)s,lastname=%(lastname)s,email=%(email)s
                 WHERE iduser = %(iduser)s;"""
         return connectToMySQL(cls.DB).query_db(query, data)
 
 
-    # Delete Users Models
+    # Delete user Models
     @classmethod
     def delete(cls, id):
-        query = "DELETE FROM users WHERE id = %(id)s;"
+        query = "DELETE FROM user WHERE id = %(id)s;"
         data = {"id": id}
         return connectToMySQL(cls.DB).query_db(query, data)
 
     # Validations
     @classmethod
     def get_by_email(cls,user):
-        query = "SELECT * FROM users WHERE email = %(email)s;"
+        query = "SELECT * FROM user WHERE email = %(email)s;"
         data = { "email" : user }
         result = connectToMySQL(cls.DB).query_db(query, data)
+
 
         if len(result) < 1:
             return False
         return cls(result[0])
 
-
     @staticmethod
     def validate_info(user):
+        print("userinfo")
+        print( user)
         is_valid = True
         if "email" in user:
             print("registration")
             list_of_emails = User.get_by_email(user['email'])
-            if user['first_name'].isalpha() == False:
+            if user['firstname'].isalpha() == False:
                 flash('Only letters please')
                 is_valid = False
-            if len(user['first_name'])< 2:
+            if len(user['firstname'])< 2:
                 flash('First name must be more than one character')
                 is_valid = False
-            if user['last_name'].isalpha() == False:
+            if user['lastname'].isalpha() == False:
                 flash('Only letters please')
                 is_valid = False
-            if len(user['last_name'])< 2:
+            if len(user['lastname'])< 2:
                 flash('Last name needs to be more than one character')
                 is_valid = False
             if len(user['password']) < 8:
@@ -155,5 +156,4 @@ class User:
             flash('Please enter a password with at least 8 characters')
             is_valid = False
         return is_valid
-
 

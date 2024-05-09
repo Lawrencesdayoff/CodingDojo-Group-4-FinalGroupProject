@@ -18,15 +18,15 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand"> <img src="../static/images/BookTok.png" width="100" height="100"></a>
             <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
-                <a class="nav-link" href="#">Home </a>
-                <a class="nav-link" href="#">Profile </a>
+                <a class="nav-link" href="/dashboard">Home </a>
+                <a class="nav-link" href="/profile/{{session.id}}">Profile </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <button type="button" data-mdb-button-init data-mdb-ripple-init
+                        <a class="nav-link" href="/books/new"> <button type="button" data-mdb-button-init data-mdb-ripple-init
                                 class="btn btn-outline-primary btn-sm"> + Create Review</button></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <button type="button" data-mdb-button-init data-mdb-ripple-init
+                        <a class="nav-link" href="/logout"> <button type="button" data-mdb-button-init data-mdb-ripple-init
                                 class="btn btn-outline-primary btn-sm"> Log Out </button></a>
                     </li>
             </div>
@@ -55,8 +55,8 @@
                             </div>
                         </div>
                         <p class="card-text"><small class="text-muted">{post.poster} on {post.created}</small>
-                            <small>{{if session.id = post.poster} <a href="..."> edit </a> <a
-                                    href="...">delete</a>}</small>
+                            <small>{if session.id = post.poster} <a href="..."> edit </a> <a
+                                    href="...">delete</a></small>
                         </p>
                         <p class="card-text">{post.review}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                             do
@@ -124,8 +124,8 @@
                                     </div>
                                     <p class="card-text"><small class="text-muted">{post.poster} on
                                             {post.created}</small>
-                                        <small>{{if session.id = post.poster} <a href="..."> edit </a> <a
-                                                href="...">delete</a>}</small>
+                                        <small>{if session.id = post.poster} <a href="..."> edit </a> <a
+                                                href="...">delete</a></small>
                                     </p>
                                 </div>
                             </div>
@@ -135,7 +135,6 @@
 
 
                 </div>
-                {% for %}
             </div>
             <!-- End of Scrollable Div -->
         </div>

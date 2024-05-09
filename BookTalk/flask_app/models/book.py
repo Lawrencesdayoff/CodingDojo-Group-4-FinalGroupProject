@@ -56,7 +56,12 @@ class Book:
             print("one time")
         return books[0]
     
-
+    @classmethod
+    def get_all_books_with_user_id(cls, data):
+        query = "SELECT * FROM user RIGHT JOIN book ON book.user_id = %(data)s"
+        results = connectToMySQL(cls.DB).query_db(query)
+        return results
+    
     # UPDATE books Models
 
 

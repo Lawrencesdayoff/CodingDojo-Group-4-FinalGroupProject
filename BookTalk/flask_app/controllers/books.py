@@ -1,18 +1,19 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
-import time
-from datetime import datetime, date
 from flask_app.models import book
 from flask_app.models import comment
 
+#Helper Functions
+def time_converter(data):
+    release_date = data.strftime("%d %B, %Y")
+    return release_date
+
+# Root
 @app.get('/dashboard')
 def index():
     if 'id' not in session: return redirect('/')
     book_list = book.Book.get_all()
-    book_date_list = []
-    for item in book_list:
-        book_date_list.append(time_converter(item.release_date))
-    return render_template('dashboard.html', books = book_list, book_dates = book_date_list)
+    return render_template('dashboard.html', books = book_list)
 
 
 @app.route('/logout')
@@ -25,9 +26,9 @@ def logout():
 @app.post('/book_submit')
 def book_submit():
     print(session)
-    if book.Book.validate_info(request.form, True) == False:
+    if book.book.validate_info(request.form, True) == False:
         return redirect('/books/new')
-    book.Book.save(request.form)
+    book.book.save(request.form)
     return redirect('/dashboard')
 
 @app.post('/process_comment/<int:comment_id>')
@@ -40,8 +41,7 @@ def process_comment(comment_id):
 @app.get('/books/new')
 def books_new():
     if 'id' not in session: return redirect('/')
-    today = date.today()
-    return render_template('new_book.html', maxdate = today)
+    return render_template('newbook.html')
     
 @app.get('/books/<int:x>')
 def get_book(x):

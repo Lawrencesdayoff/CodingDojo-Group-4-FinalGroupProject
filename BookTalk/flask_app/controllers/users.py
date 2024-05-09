@@ -1,14 +1,12 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
-from flask_app.models import user
+from flask_app.models import user, book
 from flask_app.controllers import books
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
-from flask_app.controllers import magazines
-
 @app.get('/')
 def login_and_registration():
-    return render_template('loginandregistration.html')
+    return render_template('index.html')
 
 
 # Create Users Controller
@@ -16,7 +14,7 @@ def login_and_registration():
 def process_register():
     if not user.User.validate_info(request.form):
         return redirect('/')
-    user.User.save(request.form)
+    user.User.create(request.form)
     return redirect('/login')
 
 @app.post('/process_login')
@@ -31,6 +29,13 @@ def process_login():
 @app.get('/login')
 def login():
     account = user.User.get_by_email(session['email'])
-    session['id'] = account.id
-    session['first_name'] = account.first_name
+    session['id'] = account.iduser
+    session['firstname'] = account.firstname
     return redirect('/dashboard')
+
+
+@app.get('/profile/<int:x>')
+def user_profile(x):
+    print(x)
+    userbooks = book.Book.get_all_books_with_user_id(x)
+    return render_template('profile.html', books = userbooks)

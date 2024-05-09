@@ -18,20 +18,21 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand"> <img src="../static/images/BookTok.png" width="100" height="100"></a>
             <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
-                <a class="nav-link" href="#">Home </a>
-                <a class="nav-link" href="#">Profile </a>
+                <a class="nav-link" href="/dashboard">Home </a>
+                <a class="nav-link" href="/profile/{{session.id}}">Profile </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <button type="button" data-mdb-button-init data-mdb-ripple-init
+                        <a class="nav-link" href="/books/new"> <button type="button" data-mdb-button-init data-mdb-ripple-init
                                 class="btn btn-outline-primary btn-sm"> + Create Review</button></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <button type="button" data-mdb-button-init data-mdb-ripple-init
+                        <a class="nav-link" href="/logout"> <button type="button" data-mdb-button-init data-mdb-ripple-init
                                 class="btn btn-outline-primary btn-sm"> Log Out </button></a>
                     </li>
             </div>
         </nav>
     </div>
+
 
     <div class="row justify-content-around">
 
@@ -40,18 +41,20 @@
             <form id="NewBookForm">
                 <label> Upload Book Cover: </label>
                 <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
-                <div> <label>Title:</label> </div>
-                
+                <div> <label>Title:</label>
+                    <input type="text">
+                </div>
                 <div><label>Author:</label>
-                <input type ="text">
-                    </div>
+                    <input type="text">
+                </div>
 
                 <div><label>Review:</label>
-                <textarea form= "NewBookForm"></textarea>
-            </div>
+                    <textarea form="NewBookForm"></textarea>
+                </div>
+                <button>Submit</button>
             </form>
-            </div>
         </div>
+    </div>
 
 
 </body>

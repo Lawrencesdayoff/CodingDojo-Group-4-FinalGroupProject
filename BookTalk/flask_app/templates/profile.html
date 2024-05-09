@@ -36,7 +36,7 @@
     <div class="row justify-content-around">
 
         <div class="col-6">
-            <H1> Welcome {session.firstname}</H1>
+            <H1> Welcome {{session.firstname}}</H1>
    
             <!-- Beginning of scrollable div -->
             <div class="scrollableDiv">
@@ -52,8 +52,8 @@
                             </div>
                         </div>
                         <p class="card-text"><small class="text-muted">{post.poster} on {post.created}</small>
-                            <small>{{if session.id = post.poster} <a href="..."> edit </a> <a
-                                    href="...">delete</a>}</small>
+                            <small>{if session.id = post.poster} <a href="..."> edit </a> <a
+                                    href="...">delete</a></small>
                         </p>
                         <p class="card-text">{post.review}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                             do
