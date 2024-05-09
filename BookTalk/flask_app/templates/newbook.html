@@ -22,12 +22,13 @@
                 <a class="nav-link" href="/profile/{{session.id}}">Profile </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/books/new"> <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-outline-primary btn-sm"> + Create Review</button></a>
+                        <a class="nav-link" href="/books/new"> <button type="button" data-mdb-button-init
+                                data-mdb-ripple-init class="btn btn-outline-primary btn-sm"> + Create
+                                Review</button></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout"> <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-outline-primary btn-sm"> Log Out </button></a>
+                        <a class="nav-link" href="/logout"> <button type="button" data-mdb-button-init
+                                data-mdb-ripple-init class="btn btn-outline-primary btn-sm"> Log Out </button></a>
                     </li>
             </div>
         </nav>
@@ -38,21 +39,34 @@
 
         <div class="col-6">
             <H1>New BookTok</H1>
-            <form id="NewBookForm">
-                <label> Upload Book Cover: </label>
-                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
-                <div> <label>Title:</label>
-                    <input type="text">
-                </div>
-                <div><label>Author:</label>
-                    <input type="text">
+            <form action="/book_submit" method="POST" id="NewBookForm">
+
+                <div class="form-group">
+                    <label> Upload Book Cover: </label>
+                    <input type="file" id="image" name="image" accept="image/png, image/jpeg" />
                 </div>
 
-                <div><label>Review:</label>
-                    <textarea form="NewBookForm"></textarea>
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" name="title">
+                </div>
+                <div class="form-group"><label>Author:</label>
+                    <input type="text" name="author">
+                </div>
+
+                <div class="form-group"><label>Review:</label>
+                    <textarea form="NewBookForm" name="review"></textarea>
                 </div>
                 <button>Submit</button>
             </form>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+    
         </div>
     </div>
 

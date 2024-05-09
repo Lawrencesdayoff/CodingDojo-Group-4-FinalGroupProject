@@ -3,17 +3,23 @@ from flask import render_template, redirect, request, session, flash
 from flask_app.models import book
 from flask_app.models import comment
 
+
+
 #Helper Functions
 def time_converter(data):
     release_date = data.strftime("%d %B, %Y")
     return release_date
 
+
+
 # Root
-@app.get('/dashboard')
-def index():
+@app.get('/dashboard', defaults={'x': 1})
+@app.get('/dashboard/<int:x>')
+def index(x):
     if 'id' not in session: return redirect('/')
     book_list = book.Book.get_all()
-    return render_template('dashboard.html', books = book_list)
+    book_post = book.Book.get_book_with_user(x)
+    return render_template('dashboard.html', books = book_list, post = book_post, x = x)
 
 
 @app.route('/logout')
@@ -26,10 +32,11 @@ def logout():
 @app.post('/book_submit')
 def book_submit():
     print(session)
-    if book.book.validate_info(request.form, True) == False:
+    print(request.form)
+    if book.Book.validate_info(request.form) == False:
         return redirect('/books/new')
-    book.book.save(request.form)
-    return redirect('/dashboard')
+    book.Book.create(request.form)
+    return redirect('/dashboard/1' )
 
 @app.post('/process_comment/<int:comment_id>')
 def process_comment(comment_id):
@@ -46,34 +53,34 @@ def books_new():
 @app.get('/books/<int:x>')
 def get_book(x):
     if 'id' not in session: return redirect('/')
-    book_info = book.book.get_book_with_user(x)
+    book_info = book.Book.get_book_with_user(x)
     date_of_release = time_converter(book_info.release_date)
-    comment_board = book.book.get_book_with_comments(x)
+    comment_board = book.Book.get_book_with_comments(x)
     print(comment_board.community_comments)
     return render_template('book.html', book = book_info, date_of_release = date_of_release, comment_board = comment_board)
     
 @app.get('/books/edit/<int:x>')
 def book_edit(x):
     if session:
-        today = date.today()
-        this_book = book.book.get_book(x)
-        return render_template('edit_book.html', book = this_book, maxdate = today)
+        this_book = book.Book.get_book(x)
+        return render_template('editbook.html', book = this_book)
     else:
-        return redirect('/')
+        return redirect('/dashboard')
 
 # Update Controller
 @app.post('/book_edit/<int:x>')
 def update_book(x):
     index = str(x)
-    if not book.book.validate_info(request.form, False):
+    if not book.Book.validate_info(request.form):
         return redirect('/books/edit/' + index)
-    book.book.update(request.form, index) 
+    book.Book.update(request.form, index) 
+    print(request.form)
     return redirect('/dashboard')
 # Delete Users Controller
 @app.get('/books/delete/<int:x>')
 def delete_book(x):
     if 'id' not in session: return redirect('/')
-    book.book.delete(x)
+    book.Book.delete(x)
     return redirect('/dashboard')
 
 @app.get('/comments/delete/<int:x>')

@@ -22,12 +22,13 @@
                 <a class="nav-link" href="/profile/{{session.id}}">Profile </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/books/new"> <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-outline-primary btn-sm"> + Create Review</button></a>
+                        <a class="nav-link" href="/books/new"> <button type="button" data-mdb-button-init
+                                data-mdb-ripple-init class="btn btn-outline-primary btn-sm"> + Create
+                                Review</button></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout"> <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-outline-primary btn-sm"> Log Out </button></a>
+                        <a class="nav-link" href="/logout"> <button type="button" data-mdb-button-init
+                                data-mdb-ripple-init class="btn btn-outline-primary btn-sm"> Log Out </button></a>
                     </li>
             </div>
         </nav>
@@ -37,36 +38,32 @@
 
         <div class="col-6">
             <div class="swipebutton">
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"> &lt; </button>
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                    href="/dashboard/{{ books[x].idbook }}"> &lt; </button>
 
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"> &gt; </button>
-        </div>
-   
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                    href="/dashboard/{{ books[ x ].idbook }}"> &gt; </button>
+            </div>
+
             <!-- Beginning of scrollable div -->
             <div class="scrollableDiv">
+                {%if post%}
                 <div class="card" style="width: 100%">
                     <img class="card-img-top" src="..." alt="Card image cap">
                     <div class="card-body">
                         <div class="card-text d-flex justify-content-between">
-                            <h5 class="card-title">{post.title}</h5>
+                            <h5 class="card-title">{{post.title}}</h5>
                             <div>
-                                <small> by {post.author}</small>
+                                <small> by {{post.author}}</small>
 
                             </div>
                         </div>
-                        <p class="card-text"><small class="text-muted">{post.poster} on {post.created}</small>
-                            <small>{if session.id = post.poster} <a href="..."> edit </a> <a
-                                    href="...">delete</a></small>
+                        <p class="card-text"><small class="text-muted">{{post.firstname}} + {{post.lastname}} on {{post.created_by}}</small>
+                            <small>{% if session.id == post.user_id %} <a href="/books/edit/{{post.idbook}}"> edit </a>
+                                <a href="/books/delete/{{post.idbook}}"> delete
+                                </a></small> {% endif %}
                         </p>
-                        <p class="card-text">{post.review}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim
-                            id est laborum</p>
+                        <p class="card-text">{{post.review}} </p>
 
                         <div class="float-start">
                             <div class="d-flex justify-content-between">
@@ -135,6 +132,7 @@
 
 
                 </div>
+                {% endif %}
             </div>
             <!-- End of Scrollable Div -->
         </div>
