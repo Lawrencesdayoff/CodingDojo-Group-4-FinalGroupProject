@@ -62,9 +62,10 @@ class Book:
         return books[0]
     
     @classmethod
-    def get_all_books_with_user_id(cls, data):
-        query = "SELECT * FROM user RIGHT JOIN book ON book.user_id = %(data)s"
-        results = connectToMySQL(cls.DB).query_db(query)
+    def get_all_books_with_user_id(cls, id):
+        query = " SELECT * FROM user LEFT JOIN book ON book.user_id = user.iduser WHERE user.iduser = %(iduser)s"
+        data = {"iduser": id}
+        results = connectToMySQL(cls.DB).query_db(query,data)
         return results
     
     @classmethod
@@ -158,10 +159,10 @@ class Book:
             flash('book title needs to be longer than two characters')
             is_valid = False
         if len(book['author'])< 2:
-            flash('book network needs to be longer than two characters')
+            flash('book author needs to be longer than two characters')
             is_valid = False
         if len(book['review'])< 2:
-            flash('book comments needs to be longer than two characters')
+            flash('book review needs to be longer than two characters')
             is_valid = False
         return is_valid
 

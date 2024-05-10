@@ -31,11 +31,12 @@ def login():
     account = user.User.get_by_email(session['email'])
     session['id'] = account.iduser
     session['firstname'] = account.firstname
-    return redirect('/dashboard')
+    return redirect('/dashboard/')
 
 
 @app.get('/profile/<int:x>')
 def user_profile(x):
     print(x)
-    userbooks = book.Book.get_all_books_with_user_id(x)
+    userbooks = book.Book.get_all_books_with_user_id(session['id'])
+    print(userbooks)
     return render_template('profile.html', books = userbooks)

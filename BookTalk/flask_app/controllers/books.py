@@ -2,24 +2,33 @@ from flask_app import app
 from flask import render_template, redirect, request, session, flash
 from flask_app.models import book
 from flask_app.models import comment
-
+import random;
 
 
 #Helper Functions
-def time_converter(data):
-    release_date = data.strftime("%d %B, %Y")
-    return release_date
 
 
 
 # Root
-@app.get('/dashboard', defaults={'x': 1})
+@app.get('/dashboard/', defaults={'x': None})
 @app.get('/dashboard/<int:x>')
 def index(x):
     if 'id' not in session: return redirect('/')
     book_list = book.Book.get_all()
-    book_post = book.Book.get_book_with_user(x)
-    return render_template('dashboard.html', books = book_list, post = book_post, x = x)
+    booklist_length = len(book_list)
+    if x == None:
+        random_book = random.choice(book_list)
+        x = random_book.idbook
+        book_post = book.Book.get_book_with_user(random_book.idbook)
+        print(x)
+    else:
+        book_post = book.Book.get_book_with_user(x)
+    next = x + 1
+    prev = x - 1
+    print(next % booklist_length)
+    print(prev % booklist_length)
+    return render_template('dashboard.html', books = book_list, post = book_post, x = x,
+                            next = next, prev = prev, booklist_length = booklist_length)
 
 
 @app.route('/logout')
@@ -36,7 +45,7 @@ def book_submit():
     if book.Book.validate_info(request.form) == False:
         return redirect('/books/new')
     book.Book.create(request.form)
-    return redirect('/dashboard/1' )
+    return redirect('/dashboard/' )
 
 @app.post('/process_comment/<int:comment_id>')
 def process_comment(comment_id):
@@ -65,7 +74,7 @@ def book_edit(x):
         this_book = book.Book.get_book(x)
         return render_template('editbook.html', book = this_book)
     else:
-        return redirect('/dashboard')
+        return redirect('/dashboard/')
 
 # Update Controller
 @app.post('/book_edit/<int:x>')
@@ -75,16 +84,16 @@ def update_book(x):
         return redirect('/books/edit/' + index)
     book.Book.update(request.form, index) 
     print(request.form)
-    return redirect('/dashboard')
+    return redirect('/dashboard/')
 # Delete Users Controller
 @app.get('/books/delete/<int:x>')
 def delete_book(x):
     if 'id' not in session: return redirect('/')
     book.Book.delete(x)
-    return redirect('/dashboard')
+    return redirect('/dashboard/')
 
 @app.get('/comments/delete/<int:x>')
 def delete_comment(x):
     if 'id' not in session: return redirect('/')
     comment.Comment.delete(x)
-    return redirect('/dashboard')
+    return redirect('/dashboard/')

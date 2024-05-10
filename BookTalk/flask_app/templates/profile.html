@@ -40,30 +40,23 @@
    
             <!-- Beginning of scrollable div -->
             <div class="scrollableDiv">
-                {for post in userposts}
+                {%for book in books %}
                 <div class="card" style="width: 100%">
                     <img class="card-img-top" src="..." alt="Card image cap">
                     <div class="card-body">
                         <div class="card-text d-flex justify-content-between">
-                            <h5 class="card-title">{post.title}</h5>
+                            <h5 class="card-title">{{book.title}}</h5>
                             <div>
-                                <small> by {post.author}</small>
+                                <small> by {{book.author}}</small>
 
                             </div>
                         </div>
-                        <p class="card-text"><small class="text-muted">{post.poster} on {post.created}</small>
-                            <small>{if session.id = post.poster} <a href="..."> edit </a> <a
-                                    href="...">delete</a></small>
-                        </p>
-                        <p class="card-text">{post.review}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim
-                            id est laborum</p>
+                        <p class="card-text"><small class="text-muted">created: {{book.created_at}} | updated: {{book.updated_at}}</small>
+                                <small>{% if session.id == book.user_id %} <a href="/books/edit/{{book.idbook}}"> edit </a>
+                                    <a href="/books/delete/{{book.idbook}}"> delete
+                                    </a></small> {% endif %}
+                            </p>
+                        <p class="card-text">{{book.review}}</p>
 
                         <div class="float-start">
                             <div class="d-flex justify-content-between">
@@ -76,26 +69,10 @@
                         </div>
                         <br>
                         <br>
-                        <div class="d-flex justify-content-between">
-                            <div data-mdb-input-init class="form-outline w-100">
-                                <textarea class="form-control" id="textAreaExample" rows="4"
-                                    style="background: #fff;"></textarea>
-                            </div>
-                        </div>
-                        <div class="float-end mt-2 pt-1">
-                            <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-primary btn-sm">
-                                Post comment
-                            </button>
-                            <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-outline-primary btn-sm">
-                                Cancel
-                            </button>
-                        </div>
                     </div>
 
                 </div>
-                {for post in userposts}
+                {%endfor%}
 
             </div>
             <!-- End of Scrollable Div -->

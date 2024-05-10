@@ -38,11 +38,13 @@
 
         <div class="col-6">
             <div class="swipebutton">
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                    href="/dashboard/{{ books[x].idbook }}"> &lt; </button>
+                <a href="/dashboard/{{ books[prev % booklist_length].idbook}}">
+                <button type ="button" data-mdb-ripple-init class="btn btn-primary btn-lg">
+                     &lt; </button>
+                </a>
 
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                    href="/dashboard/{{ books[ x ].idbook }}"> &gt; </button>
+               <a href="/dashboard/{{books[next % booklist_length].idbook}}"> <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                    > &gt; </button></a>
             </div>
 
             <!-- Beginning of scrollable div -->
@@ -58,7 +60,7 @@
 
                             </div>
                         </div>
-                        <p class="card-text"><small class="text-muted">{{post.firstname}} + {{post.lastname}} on {{post.created_by}}</small>
+                        <p class="card-text"><small class="text-muted">{{post.user_info[0].firstname}} {{post.user_info[0].lastname}} on {{post.created_at}}</small>
                             <small>{% if session.id == post.user_id %} <a href="/books/edit/{{post.idbook}}"> edit </a>
                                 <a href="/books/delete/{{post.idbook}}"> delete
                                 </a></small> {% endif %}
