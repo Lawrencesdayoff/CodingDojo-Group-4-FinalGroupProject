@@ -47,11 +47,6 @@ def book_submit():
     book.Book.create(request.form)
     return redirect('/dashboard/' )
 
-@app.post('/process_comment/<int:comment_id>')
-def process_comment(comment_id):
-    bookid = str(comment_id)
-    comment.Comment.new_comment( comment_id,request.form)
-    return redirect('/books/' + bookid)
 
 # Read Users Controller
 @app.get('/books/new')
@@ -90,10 +85,4 @@ def update_book(x):
 def delete_book(x):
     if 'id' not in session: return redirect('/')
     book.Book.delete(x)
-    return redirect('/dashboard/')
-
-@app.get('/comments/delete/<int:x>')
-def delete_comment(x):
-    if 'id' not in session: return redirect('/')
-    comment.Comment.delete(x)
     return redirect('/dashboard/')

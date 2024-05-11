@@ -39,12 +39,12 @@
         <div class="col-6">
             <div class="swipebutton">
                 <a href="/dashboard/{{ books[prev % booklist_length].idbook}}">
-                <button type ="button" data-mdb-ripple-init class="btn btn-primary btn-lg">
-                     &lt; </button>
+                    <button type="button" data-mdb-ripple-init class="btn btn-primary btn-lg">
+                        &lt; </button>
                 </a>
 
-               <a href="/dashboard/{{books[next % booklist_length].idbook}}"> <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                    > &gt; </button></a>
+                <a href="/dashboard/{{books[next % booklist_length].idbook}}"> <button type="button"
+                        data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"> &gt; </button></a>
             </div>
 
             <!-- Beginning of scrollable div -->
@@ -60,7 +60,8 @@
 
                             </div>
                         </div>
-                        <p class="card-text"><small class="text-muted">{{post.user_info[0].firstname}} {{post.user_info[0].lastname}} on {{post.created_at}}</small>
+                        <p class="card-text"><small class="text-muted">{{post.user_info[0].firstname}}
+                                {{post.user_info[0].lastname}} on {{post.created_at}}</small>
                             <small>{% if session.id == post.user_id %} <a href="/books/edit/{{post.idbook}}"> edit </a>
                                 <a href="/books/delete/{{post.idbook}}"> delete
                                 </a></small> {% endif %}
@@ -78,22 +79,25 @@
                         </div>
                         <br>
                         <br>
-                        <div class="d-flex justify-content-between">
-                            <div data-mdb-input-init class="form-outline w-100">
-                                <textarea class="form-control" id="textAreaExample" rows="4"
-                                    style="background: #fff;"></textarea>
+                        <form action="/process_comment/{{x}}" method = "POST" id = "CommentForm">
+                            <div class="d-flex justify-content-between">
+
+                                <div data-mdb-input-init class="form-outline w-100">
+                                    <textarea class="form-control" form ="CommentForm" id="textAreaExample" rows="4"
+                                        style="background: #fff;"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="float-end mt-2 pt-1">
-                            <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-primary btn-sm">
-                                Post comment
-                            </button>
-                            <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-outline-primary btn-sm">
-                                Cancel
-                            </button>
-                        </div>
+                            <div class="float-end mt-2 pt-1">
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                    class="btn btn-primary btn-sm">
+                                    Post comment
+                                </button>
+                                <button type="reset" data-mdb-button-init data-mdb-ripple-init
+                                    class="btn btn-outline-primary btn-sm">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>

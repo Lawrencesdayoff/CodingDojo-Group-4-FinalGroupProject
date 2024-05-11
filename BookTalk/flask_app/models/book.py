@@ -17,6 +17,7 @@ class Book:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.user_info = []
+        self.comments = []
 
    # CREATE books Models
 
@@ -101,6 +102,34 @@ class Book:
             posted_by.user_info.append(user.User(user_data))
             print(posted_by)
         return posted_by
+    
+
+    @classmethod
+    def get_book_with_comments(cls, id):
+        query = """
+        SELECT * FROM book 
+        LEFT JOIN comment
+        ON book.idbook = comment.book_id
+        WHERE book.idbook = %(id)s;
+    """
+        data = {
+            "id": id
+        }
+        results = connectToMySQL(cls.DB).query_db(query, data)
+        comment_list = cls(results[0])
+        for row_from_db in results:
+            comment_data = {
+                "idcomment": row_from_db["idcomment"],
+                "book_id": row_from_db["book_id"],
+                "user_id": row_from_db["user_id"],
+                "comment_text": row_from_db["user_id"],
+                "created_at": row_from_db["created_at"],
+                "updated_at": row_from_db["updated_at"]
+            }
+
+            comment_list.comments.append(comment.Comment(comment_data))
+            print(comment_list)
+            return comment_list
     # UPDATE books Models
 
 
